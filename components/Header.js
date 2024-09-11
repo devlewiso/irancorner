@@ -1,10 +1,9 @@
-// components/Header.js
 'use client';
 
 import React, { useState } from 'react';
-import { AppBar, Toolbar, Typography, Button, IconButton, Drawer, List, ListItem, ListItemText } from '@mui/material';
+import { AppBar, Toolbar, Typography, Button, IconButton, Drawer, List, ListItem, ListItemText, Box } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
-import { Link } from 'next/link';
+import Link from 'next/link';
 import { useMediaQuery, useTheme } from '@mui/material';
 
 const Header = () => {
@@ -30,7 +29,7 @@ const Header = () => {
   const drawerList = (
     <List>
       {menuItems.map((item) => (
-        <ListItem button component={Link} href={item.href} key={item.text}>
+        <ListItem button component="a" href={item.href} key={item.text} onClick={toggleDrawer(false)}>
           <ListItemText primary={item.text} />
         </ListItem>
       ))}
@@ -40,7 +39,7 @@ const Header = () => {
   return (
     <AppBar position="static">
       <Toolbar>
-        <Typography variant="h6" style={{ flexGrow: 1 }}>
+        <Typography variant="h6" sx={{ flexGrow: 1 }}>
           Iran's Corner
         </Typography>
 
@@ -51,7 +50,14 @@ const Header = () => {
               <MenuIcon />
             </IconButton>
             <Drawer anchor="left" open={drawerOpen} onClose={toggleDrawer(false)}>
-              {drawerList}
+              <Box
+                sx={{ width: 250 }}
+                role="presentation"
+                onClick={toggleDrawer(false)}
+                onKeyDown={toggleDrawer(false)}
+              >
+                {drawerList}
+              </Box>
             </Drawer>
           </>
         ) : (

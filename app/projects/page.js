@@ -1,85 +1,88 @@
 'use client';
 
-import React, { useState } from 'react';
-import { Grid, Container, Typography, Card, CardContent, Modal, Box, Button } from '@mui/material';
+import React, { useState, useMemo } from 'react';
+import { Grid, Container, Typography, Card, CardContent, Modal, Box, Button, useMediaQuery } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
 import Image from 'next/image';
 
 // Datos de los proyectos
 const projects = [
-  { id: 1, title: 'Proyecto 1', description: 'Descripción breve del proyecto 1', image: '/images/proyecto1.webp', url: 'https://dash.iranscorner.fun' },
-  { id: 2, title: 'Proyecto 2', description: 'Descripción breve del proyecto 2', image: '/api/placeholder/300/200', url: 'https://proyecto2.com' },
-  { id: 3, title: 'Proyecto 3', description: 'Descripción breve del proyecto 3', image: '/api/placeholder/300/200', url: 'https://proyecto3.com' },
-  { id: 4, title: 'Proyecto 4', description: 'Descripción breve del proyecto 4', image: '/api/placeholder/300/200', url: 'https://proyecto4.com' },
-  { id: 5, title: 'Proyecto 5', description: 'Descripción breve del proyecto 5', image: '/api/placeholder/300/200', url: 'https://proyecto5.com' },
-  { id: 6, title: 'Proyecto 6', description: 'Descripción breve del proyecto 6', image: '/api/placeholder/300/200', url: 'https://proyecto6.com' },
-  { id: 7, title: 'Proyecto 7', description: 'Descripción breve del proyecto 7', image: '/api/placeholder/300/200', url: 'https://proyecto7.com' },
-  { id: 8, title: 'Proyecto 8', description: 'Descripción breve del proyecto 8', image: '/api/placeholder/300/200', url: 'https://proyecto8.com' },
+  {
+    id: 1,
+    title: 'Dashboard MultiTask',
+    description: 'Es un Dashboard con múltiples herramientas para tu uso diario.',
+    image: '/images/proyecto1.webp',
+    link: '/projects/dashboard-multitask',
+  },
+  {
+    id: 2,
+    title: 'Proyecto 2',
+    description: 'Descripción breve del proyecto 2.',
+    image: '/images/proyecto2.webp',
+    link: '/projects/proyecto-2',
+  },
+  // Agrega más proyectos según sea necesario
 ];
 
-// Componente de tarjeta de proyecto
-function ProjectCard({ project, onViewMore }) {
-  return (
-    <Card>
-      <img src={project.image} alt={project.title} style={{ width: '100%', height: '200px', objectFit: 'cover' }} />
-      <CardContent>
-        <Typography gutterBottom variant="h5" component="div">
-          {project.title}
-        </Typography>
-        <Typography variant="body2" color="text.secondary">
-          {project.description}
-        </Typography>
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={() => onViewMore(project)}
-          sx={{ marginTop: '10px' }}
-        >
-          Ver Más
-        </Button>
-      </CardContent>
-    </Card>
-  );
-}
+// Componente para el modal
+const ProjectModal = React.memo(({ project, open, onClose }) => {
+  const theme = useTheme();
+  const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
-// Componente de diálogo de proyecto
-function ProjectDialog({ project, open, onClose }) {
+  if (!project) return null;
+
   return (
-    <Modal open={open} onClose={onClose} aria-labelledby="modal-title" aria-describedby="modal-description">
+    <Modal
+      open={open}
+      onClose={onClose}
+      aria-labelledby={`modal-title-${project.id}`}
+      aria-describedby={`modal-description-${project.id}`}
+    >
       <Box
         sx={{
           position: 'absolute',
           top: '50%',
           left: '50%',
           transform: 'translate(-50%, -50%)',
-          width: 400,
+          width: fullScreen ? '100%' : { xs: '90%', sm: '70%', md: 600 },
+          height: fullScreen ? '100%' : 'auto',
+          maxHeight: fullScreen ? '100%' : '90vh',
           bgcolor: 'background.paper',
           boxShadow: 24,
-          p: 4,
-          borderRadius: 2,
+          p: { xs: 2, sm: 3, md: 4 },
+          borderRadius: fullScreen ? 0 : 2,
+          overflow: 'auto',
         }}
       >
-        <Typography id="modal-title" variant="h6" component="h2">
+        <Typography id={`modal-title-${project.id}`} variant="h6" component="h2">
           {project.title}
         </Typography>
-        <img src={project.image} alt={project.title} style={{ width: '100%', height: 'auto', margin: '10px 0' }} />
-        <Typography id="modal-description" sx={{ mt: 2, backgroundColor: 'white', color: 'black', padding: '10px', borderRadius: '4px' }}>
+        <Box sx={{ position: 'relative', width: '100%', height: 200, my: 2 }}>
+          <Image
+            src={project.image}
+            alt={project.title}
+            layout="fill"
+            objectFit="cover"
+          />
+        </Box>
+        <Typography id={`modal-description-${project.id}`} sx={{ mt: 2 }}>
           {project.description}
         </Typography>
-        <Button variant="contained" color="secondary" onClick={onClose} sx={{ marginTop: '10px' }}>
+        <Button variant="contained" color="primary" onClick={onClose} sx={{ mt: 2 }}>
           Cerrar
-        </Button>
-        <Button variant="contained" color="primary" onClick={() => window.open(project.url, '_blank')} sx={{ marginTop: '10px', marginLeft: '10px' }}>
-          Ir al Proyecto
         </Button>
       </Box>
     </Modal>
   );
-}
+});
+
+ProjectModal.displayName = 'ProjectModal';
 
 // Componente principal
 export default function ProjectsPage() {
   const [open, setOpen] = useState(false);
   const [selectedProject, setSelectedProject] = useState(null);
+  const theme = useTheme();
 
   const handleOpen = (project) => {
     setSelectedProject(project);
@@ -91,25 +94,81 @@ export default function ProjectsPage() {
     setSelectedProject(null);
   };
 
+  const memoizedProjects = useMemo(() => projects.map((project) => (
+    <Grid item xs={12} sm={6} md={4} key={project.id}>
+      <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
+        <Box sx={{ position: 'relative', width: '100%', height: 200 }}>
+          <Image
+            src={project.image}
+            alt={project.title}
+            layout="fill"
+            objectFit="cover"
+          />
+        </Box>
+        <CardContent sx={{ flexGrow: 1 }}>
+          <Typography gutterBottom variant="h5" component="div">
+            {project.title}
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
+            {project.description}
+          </Typography>
+        </CardContent>
+        <Box sx={{ display: 'flex', justifyContent: 'space-between', p: 2 }}>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => handleOpen(project)}
+          >
+            Ver Proyecto
+          </Button>
+          <Button
+            variant="outlined"
+            color="secondary"
+            href={project.link}
+            target="_blank"
+          >
+            Ir al Proyecto
+          </Button>
+        </Box>
+      </Card>
+    </Grid>
+  )), []);
+
   return (
-    <Container maxWidth="lg" sx={{ padding: '20px' }}>
-      <Typography variant="h4" gutterBottom>
-        Mis Proyectos
-      </Typography>
-      <Grid container spacing={3}>
-        {projects.map((project) => (
-          <Grid item xs={12} sm={6} md={4} key={project.id}>
-            <ProjectCard project={project} onViewMore={handleOpen} />
-          </Grid>
-        ))}
-      </Grid>
-      {selectedProject && (
-        <ProjectDialog 
+    <Box sx={{ 
+      display: 'flex', 
+      justifyContent: 'center', 
+      width: '100%', 
+      bgcolor: 'background.default'
+    }}>
+      <Container 
+        maxWidth="lg" 
+        sx={{ 
+          py: { xs: 2, sm: 3, md: 4 },
+          px: { xs: 2, sm: 3, md: 4 },
+        }}
+      >
+        <Typography 
+          variant="h4" 
+          component="h1" 
+          gutterBottom 
+          sx={{ 
+            fontSize: { xs: '1.5rem', sm: '2rem', md: '2.5rem' },
+            textAlign: 'center',
+            mb: { xs: 2, sm: 3, md: 4 }
+          }}
+        >
+          Proyectos Destacados
+        </Typography>
+        <Grid container spacing={{ xs: 2, sm: 3, md: 4 }} justifyContent="center">
+          {memoizedProjects}
+        </Grid>
+        <ProjectModal
           project={selectedProject}
           open={open}
           onClose={handleClose}
         />
-      )}
-    </Container>
+      </Container>
+    </Box>
   );
 }
