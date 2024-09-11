@@ -1,0 +1,74 @@
+/* styles/blog.module.css */
+
+.container {
+    display: flex;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+  }
+  
+  .mainContent {
+    flex: 3;
+    padding-right: 2rem;
+  }
+  
+  .pageTitle {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 1.5rem;
+  }
+  
+  .postList {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  
+  .postCard {
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 1.5rem;
+  }
+  
+  .postTitle {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+  }
+  
+  .postExcerpt {
+    color: #666;
+  }
+  
+  .sidebar {
+    flex: 1;
+    background-color: #f4f4f4;
+    border-radius: 8px;
+    padding: 1.5rem;
+  }
+  
+  .sidebarTitle {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+  }
+  
+  .sidebarList {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .sidebarItem {
+    margin-bottom: 0.5rem;
+  }
+  
+  .sidebarItem a {
+    color: #0070f3;
+    text-decoration: none;
+  }
+  
+  .sidebarItem a:hover {
+    text-decoration: underline;
+  }
+  

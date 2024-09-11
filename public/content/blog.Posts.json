@@ -1,0 +1,18 @@
+[
+  {
+    "slug": "introduccion-a-react",
+    "title": "Introducción a React",
+    "summary": "Aprende los conceptos básicos de React, una popular biblioteca de JavaScript.",
+    "date": "21 de agosto, 2024",
+    "content": "Este es el contenido completo del post.",
+    "image": "https://tse2.mm.bing.net/th?id=OIG2.Fr6HiUOYt5kvewKCGiJf&pid=ImgGn"
+  },
+  {
+    "slug": "mejores-practicas-javascript",
+    "title": "Mejores Prácticas en JavaScript",
+    "summary": "Consejos y trucos para escribir un código limpio y eficiente en JavaScript.",
+    "date": "22 de agosto, 2024",
+    "content": "Este es el contenido completo del post.",
+    "image": "https://tse3.mm.bing.net/th?id=OIG2.fgK3O.ZqF5PvIv.t2.Ue&pid=ImgGn"
+  }
+]
