@@ -58,6 +58,30 @@ const HomePage = () => {
           </div>
         </section>
 
+        <section className="mb-12 relative w-full h-64">
+  <h2 className="text-2xl font-semibold mb-6 text-center"></h2>
+  
+  {/* Imagen de fondo con hover */}
+  <div className="relative w-full h-full group">
+    <Image 
+      src="/images/hover1.webp" 
+      alt="Herramientas" 
+      layout="fill" 
+      objectFit="cover"
+      className="w-full h-full object-cover transition-transform duration-300 ease-in-out group-hover:scale-105"
+    />
+    
+    {/* Capa hover con botón */}
+    <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+      <Link href="/tools">
+        <Button className="bg-black text-black font-bold py-2 px-4 rounded">
+          Herramientas
+        </Button>
+      </Link>
+    </div>
+  </div>
+</section>
+
         <section className="mb-12">
           <h2 className="text-2xl font-semibold mb-6">Últimas Publicaciones</h2>
           {/* Add a component to display latest blog posts */}

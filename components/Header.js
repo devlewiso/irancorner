@@ -24,7 +24,7 @@ const Header = () => {
     { text: 'Projects', href: '/projects' },
     { text: 'Code Snippets', href: '/code-snippets' },
     { text: 'Curriculum', href: '/curriculum' },
-    { text: 'Blogs', href: '/blog' },
+    { text: 'Blog', href: '/blog' },
   ];
 
   const drawerList = (
